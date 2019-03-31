@@ -1,14 +1,28 @@
 function RandomArray(rows, cols) {
     var arr = [];
 
-    for (var i = 0; i < rows; i++) {
+    for (var i = 0; i < rows + 1; i++) {
         arr.push([]);
         arr[i].push(new Array(cols));
 
-        for (var j = 0; j < cols; j++) {
-            arr[i][j] = Math.random();
+        if (i > 0) {
+            for (var j = 1; j <= cols; j++) {
+                arr[i][j] = Math.random();
+            }
+        }
+        else {
+            for (var j = 1; j <= cols; j++) {
+                arr[i][j] = "variable " + j;
+            }
         }
     }
+
+    for (var i = 1; i <= rows; i++) {
+        arr[i][0] = "time " + i;
+    }
+
+    arr[0][0] = "2D Array";
+
     console.log(arr);
     return arr;
 }
@@ -25,6 +39,5 @@ function htmlTable(d) {
         }
         html += "</tr>";
     }
-
     $(html).appendTo('#div1');
-}
+}   
