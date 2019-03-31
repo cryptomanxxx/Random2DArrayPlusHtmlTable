@@ -1,18 +1,28 @@
-function RandomArray(rows, cols) {
+function GetRandom(min, max) {
+    var x = Math.random() * (max - min) + min;
+    return x;
+}
+
+function RandomWalk(rows, cols) {
     var arr = [];
 
     for (var i = 0; i < rows + 1; i++) {
         arr.push([]);
         arr[i].push(new Array(cols));
 
-        if (i > 0) {
+        if (i == 1) {
             for (var j = 1; j <= cols; j++) {
-                arr[i][j] = Math.random();
+                arr[1][j] = 100;
+            }
+        }
+        else if (i > 1) {
+            for (var j = 1; j <= cols; j++) {
+                arr[i][j] = arr[i - 1][j] + GetRandom(-1, +1);
             }
         }
         else {
             for (var j = 1; j <= cols; j++) {
-                arr[i][j] = "variable " + j;
+                arr[i][j] = "Random Walk " + j;
             }
         }
     }
@@ -22,7 +32,6 @@ function RandomArray(rows, cols) {
     }
 
     arr[0][0] = "2D Array";
-
     console.log(arr);
     return arr;
 }
