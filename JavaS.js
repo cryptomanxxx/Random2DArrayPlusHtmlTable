@@ -3,6 +3,20 @@ function GetRandom(min, max) {
     return x;
 }
 
+function ArraySelect(DataArray, row_start, column) {
+
+    var Nr = DataArray.length;
+    var Nc = DataArray[1].length;
+
+    var D = [];
+
+    for (var i = row_start; i < Nr; i++) {
+        D.push(DataArray[i][column]);
+    }
+    return D;
+}
+
+
 function RandomWalk(rows, cols) {
     var arr = [];
 
@@ -28,7 +42,7 @@ function RandomWalk(rows, cols) {
     }
 
     for (var i = 1; i <= rows; i++) {
-        arr[i][0] = "time " + i;
+        arr[i][0] = "Time-" + i;
     }
 
     arr[0][0] = "2D Array";
@@ -41,12 +55,35 @@ function htmlTable(d) {
     var data = d;
     var html = '<table><thead><tr></tr></thead><tbody>';
 
-    for (var i = 0, len = data.length; i < len; ++i) {
+    for (var i = 0; i < data.length; i++) {
         html += '<tr>';
-        for (var j = 0, rowLen = data[i].length; j < rowLen; ++j) {
+        for (var j = 0; j < data[i].length; ++j) {
             html += '<td>' + data[i][j] + '</td>';
         }
         html += "</tr>";
     }
     $(html).appendTo('#div1');
-}   
+}
+
+function Plot(DD) {
+    console.log("DD = " + DD);
+    var xx = ArraySelect(DD, 1, 0);
+    console.log("xx = " + xx);
+    var Nc = DD[1].length - 1;
+    console.log("Nc = " + Nc);
+
+    var yy = [];
+    var trace = [];
+    var data = [];
+
+    for (var j = 1; j <= Nc; j++) {
+        yy[j] = ArraySelect(DD, 1, j);
+        trace[j] = { x: xx, y: yy[j], name: 'Random Walk ' + j, type: 'scatter' };
+        data.push(trace[j]);
+        console.log(trace[j]);
+    }
+
+    Plotly.newPlot('div2', data, { showlegend: false, xaxis: { tickmode: "linear", dtick: 1 } }, { displayModeBar: false });
+}
+
+
