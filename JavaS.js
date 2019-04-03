@@ -3,15 +3,13 @@ function GetRandom(min, max) {
     return x;
 }
 
-function ArraySelect(DataArray, row_start, column) {
-
+function ArraySelect(DataArray, row, column_start) {
     var Nr = DataArray.length;
     var Nc = DataArray[1].length;
-
     var D = [];
 
-    for (var i = row_start; i < Nr; i++) {
-        D.push(DataArray[i][column]);
+    for (var i = row; i < Nr; i++) {
+        D.push(DataArray[i][column_start]);
     }
     return D;
 }
@@ -19,24 +17,23 @@ function ArraySelect(DataArray, row_start, column) {
 
 function RandomWalk(rows, cols) {
     var arr = [];
-
-    for (var i = 0; i < rows + 1; i++) {
+    for (var i = 0; i <= rows; i++) {
         arr.push([]);
-        arr[i].push(new Array(cols));
+        arr[i].push(new Array(cols));    // creates 2D array 
 
-        if (i == 1) {
+        if (i == 0) {
+            for (var j = 1; j <= cols; j++) {
+                arr[i][j] = "Random Walk " + j;
+            }
+        }
+        else if (i == 1) {
             for (var j = 1; j <= cols; j++) {
                 arr[1][j] = 100;
             }
         }
-        else if (i > 1) {
-            for (var j = 1; j <= cols; j++) {
-                arr[i][j] = arr[i - 1][j] + GetRandom(-1, +1);
-            }
-        }
         else {
             for (var j = 1; j <= cols; j++) {
-                arr[i][j] = "Random Walk " + j;
+                arr[i][j] = arr[i - 1][j] + GetRandom(-1, +1);
             }
         }
     }
@@ -48,16 +45,16 @@ function RandomWalk(rows, cols) {
     arr[0][0] = "2D Array";
     console.log(arr);
     return arr;
+    ;
 }
 
-
-function htmlTable(d) {
+function HtmlTable(d) {
     var data = d;
     var html = '<table><thead><tr></tr></thead><tbody>';
 
     for (var i = 0; i < data.length; i++) {
         html += '<tr>';
-        for (var j = 0; j < data[i].length; ++j) {
+        for (var j = 0; j < data[i].length; j++) {
             html += '<td>' + data[i][j] + '</td>';
         }
         html += "</tr>";
@@ -82,8 +79,6 @@ function Plot(DD) {
         data.push(trace[j]);
         console.log(trace[j]);
     }
-
     Plotly.newPlot('div2', data, { showlegend: false, xaxis: { tickmode: "linear", dtick: 1 } }, { displayModeBar: false });
 }
-
 
